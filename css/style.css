@@ -31,6 +31,10 @@ body {
 }
 
 @media only screen and (max-width: 768px) {
+    .main{
+        padding-top: 200px;
+       
+    }
     #categories {
         transition: var(--transition);
         transform: translateX(-100%);

@@ -4,10 +4,14 @@ const sideBarList = $('#ul');
 const navCategories = $('#navCategories');
 let products = JSON.parse(localStorage.getItem('products'));
 
+
+
 showCat(
     function(categories) {
         console.log(categories);
-        sideBarList.html(categories.map(item => `<li><a href="#" class = 'categories-list ' onclick="change_cat('${item.slug}')">${item.name}</a></li>`).join(''));
+        sideBarList.html(categories.map(item => 
+            `<li id='car_element'><a href="#" class='categories-list' id='${item.slug}'>${item.name}</a></li>`
+        ).join(''));
         navCategories.html(categories.map(item => `<li id='${item.slug}'><a class="dropdown-item " href="#">${item.name}</a></li>`).join(''));
     }
 )
@@ -20,7 +24,6 @@ handleData(
          data = data.products;
         const productContainer = $('#product-container');
         productContainer.html(data.map(product => `
-            
 <div class="col-12 col-sm-6 col-md-4">
     <div class="mb-2 card shadow rounded-3 p-3 d-flex flex-column ">
             <div class="img-container">
@@ -53,9 +56,46 @@ handleData(
     }
 );
 
-function change_cat(cat){
-    endPoint = cat;
-}
+$(document).on('click', '.categories-list', function() {
+    const categoryId = $(this).attr('id');
+    console.log(categoryId);
+
+    if (categoryId) {
+        handleData(
+            `products/category/${categoryId}`,
+            data => {
+                console.log('Fetched data:', data);
+                const productContainer = $('#product-container');
+                productContainer.html(data.products.map(product => `
+                    <div class="col-12 col-sm-6 col-md-4">
+                        <div class="mb-2 card shadow rounded-3 p-3 d-flex flex-column">
+                            <div class="img-container">
+                                <img class="card-img-top" src="${product.images[0]}" alt="${product.title}">
+                            </div>
+                            <div class='card-body'>
+                                <h1 class="card-title mb-3">${product.title}</h1>
+                                <p class="card-text">${product.description}</p>
+                                <div class="card-end d-flex justify-content-between">
+                                    <h3>$${product.price}</h3>
+                                    <button class="btn btn-danger mb-3 addToCartBtn">Add To Cart</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `).join(''));
+
+                // Re-attach event listeners for the new buttons
+                attachAddToCartListeners();
+            },
+            error => console.log(error),
+            () => console.log('start'),
+            () => console.log('end')
+        );
+    }
+});
+
+
+
 
 function attachAddToCartListeners() {
     const $addToCartButtons = $('.addToCartBtn');
