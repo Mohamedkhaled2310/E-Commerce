@@ -1,5 +1,4 @@
 
-
 :root {
     --color-primary: #d10024;
     --color-secondary: #15161d;
@@ -116,4 +115,16 @@ body {
 }
 .card-text{
     flex-grow: 1;
+}
+
+
+.categories-list{
+    text-decoration: none;
+    color: gray;
+    font-weight: bold;
+    transition: var(--transition);
+}
+.categories-list:hover{
+  transform: scale(1.1);
+  color: var(--color-secondary);
 }
