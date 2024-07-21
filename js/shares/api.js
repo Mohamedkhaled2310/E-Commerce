@@ -1,6 +1,6 @@
 
 const base_url = "https://dummyjson.com/";
- export default async function handleData(endPoint,success,error,startLoading,endLoading){
+ export async function handleData(endPoint,success,error,startLoading,endLoading){
     const res = await fetch(`${base_url}${endPoint}`);
     startLoading();
     try{    
@@ -18,3 +18,10 @@ const base_url = "https://dummyjson.com/";
     }
 
  }
+export function showCat(success){
+ fetch('https://dummyjson.com/products/categories')
+ .then(response => response.json())
+ .then(data => success(data))
+.catch(error => console.error('Error fetching products:', error));
+}
+//console.log(data.products[0].images[0])

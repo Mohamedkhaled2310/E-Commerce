@@ -10,7 +10,7 @@
 </head>
 <body>
 
-    <nav class="bg-main text-white">
+    <nav class="bg-main text-white fixed-top">
         <div class="d-flex justify-content-between p-3 align-items-center flex-column flex-md-row">
             <span class="logo text-danger"><i class="fa-solid fa-shop"></i><a class="logoLetter" href="#">E-Shop</a></span>
             <div class="d-flex gap-2 align-items-center">
@@ -19,9 +19,7 @@
                         Categories
                     </button>
                     <ul id="navCategories" class="dropdown-menu">
-                        <li><a class="dropdown-item" href="#">Action</a></li>
-                        <li><a class="dropdown-item" href="#">Another action</a></li>
-                        <li><a class="dropdown-item" href="#">Something else here</a></li>
+
                     </ul>
                 </div>
                 <div>
@@ -39,7 +37,7 @@
         </div>
     </nav>
 
-    <main class="container-fluid">
+    <main class="container-fluid main">
         <div class="row">
             <button class="btn-sidebar btn btn-danger d-md-none position-fixed top-50 left-0 m-0 p-0" id="toggleSidebar">
                 <i class="fa-solid fa-bag-shopping"></i>
@@ -63,24 +61,25 @@
                 <ul id="cartItems" class="list-unstyled"></ul>
                 <div class="d-flex justify-content-between mt-3">
                     <h3>Total: $<span id="cartTotal">0.00</span></h3>
-                    <button class="btn btn-success">Checkout</button>
+                    <button class="btn btn-success" disabled>Checkout</button>
                 </div>
             </aside>
-            <section class="col-12 col-md-9 offset-md-3 mt-3">
-                <div class="row">
-                    <div class="col-12 col-sm-6 col-md-4">
-                        <div class="mb-2 shadow rounded-3 p-3">
-                            <img class="w-100 img-fluid" src="" alt="image">
+            <div class="col-12 col-md-9 offset-md-3 mt-3">
+                <div class="row" id="product-container">
+                    <!-- <div class="col-12 col-sm-6 col-md-4">
+                        <div class="mb-2 card shadow rounded-3 p-3">
+                            <img class="w-100 img-fluid" src="images/prod-1.jpg" alt="image">
                             <h1>Title</h1>
                             <p>Paragraph</p>
                             <div class="d-flex justify-content-between">
                                 <h3>$599</h3>
-                                <button class="btn btn-danger mb-3 addToCartBtn">Add To Cart</button>
+                                <button class="btn btn-danger mb-3 addToCartBtn" >Add To Cart</button>
                             </div>
                         </div>
-                    </div>
+                    </div> -->
+                    
                 </div>
-            </section>
+            </div>
         </div>
     </main>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
