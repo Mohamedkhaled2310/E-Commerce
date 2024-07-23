@@ -2,8 +2,15 @@ import { handleData, showCat } from "./shares/api.js";
 
 const sideBarList = $('#ul');
 const navCategories = $('#navCategories');
+const num_of_item = $('#num_of_item');
 let products = JSON.parse(localStorage.getItem('products'));
 
+// function load(){
+    
+// }
+// $(window).on('load', function() {
+//     load();
+// });
 
 
 showCat(
@@ -45,17 +52,10 @@ handleData(
         // Re-attach event listeners for the new buttons
         attachAddToCartListeners();
     },
-    function(error) {
-        console.log(error);
-    },
-    function() {
-        console.log('start');
-    },
-    function() {
-        console.log("end");
-    }
-);
-
+    error => console.log(error),
+    () => $('.loading-overlay').fadeIn('slow'),
+    () =>  $('.loading-overlay').fadeOut('slow')
+)
 $(document).on('click', '.categories-list', function() {
     const categoryId = $(this).attr('id');
     console.log(categoryId);
@@ -88,8 +88,8 @@ $(document).on('click', '.categories-list', function() {
                 attachAddToCartListeners();
             },
             error => console.log(error),
-            () => console.log('start'),
-            () => console.log('end')
+            () => $('.loading-overlay').fadeIn('slow'),
+            () =>  $('.loading-overlay').fadeOut('slow')
         );
     }
 });
@@ -126,7 +126,9 @@ function attachAddToCartListeners() {
                     quantity: 1
                 };
                 products.push(product);
+               
             }
+            
 
             updateCart();
         });
@@ -135,7 +137,7 @@ function attachAddToCartListeners() {
     function updateCart() {
         $cartItems.empty();
         total = 0;
-
+        num_of_item.html(products.length);
         products.forEach(product => {
             total += product.price * product.quantity;
 

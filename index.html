@@ -9,13 +9,18 @@
     <title>e-commerce</title>
 </head>
 <body>
-
+    <div class="loading-overlay">
+        <div class="spinner-border text-danger" role="status">
+            <span class="visually-hidden">Loading...</span>
+        </div>
+    </div>
+    
     <nav class="bg-main text-white fixed-top">
         <div class="d-flex justify-content-between p-3 align-items-center flex-column flex-md-row">
             <span class="logo text-danger"><i class="fa-solid fa-shop"></i><a class="logoLetter" href="#">E-Shop</a></span>
             <div class="d-flex gap-2 align-items-center">
                 <div class="dropdown">
-                    <button class="btn btn-danger dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    <button disabled class="btn btn-danger dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
                         Categories
                     </button>
                     <ul id="navCategories" class="dropdown-menu">
@@ -33,7 +38,13 @@
                     </form>
                 </div>
             </div>
-            <button class="btn btn-danger mt-3 mt-md-0 mt-lg-0" id="cartButton" type="button"><i class="fa-solid fa-cart-shopping"></i></button>
+           
+                
+                <button class="btn btn-danger mt-md-0 mt-lg-0" id="cartButton" type="button">
+                    <span id="num_of_item" class="cart-popup bg-danger ">0</span>
+                    <i class="fa-solid fa-cart-shopping"></i></button>
+          
+            
         </div>
     </nav>
 
