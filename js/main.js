@@ -39,6 +39,10 @@ handleData(
           <div class= 'card-body'>
             <h1 class="card-title mb-3">${product.title}</h1>
             <p class="card-text">${product.description}</p>
+             <div class="d-flex gap-2 mb-3 align-items-center">
+                <span class="text-warning">★</span>
+               <div class="px-2 bg-danger bg-opacity-75 rounded-2">${product.rating}</div>
+              </div>
             <div class="card-end d-flex justify-content-between">
             <h3>$${product.price}</h3>
             <button class="btn btn-danger mb-3 addToCartBtn">Add To Cart</button>
@@ -75,6 +79,10 @@ $(document).on('click', '.categories-list', function() {
                             <div class='card-body'>
                                 <h1 class="card-title mb-3">${product.title}</h1>
                                 <p class="card-text">${product.description}</p>
+                                <div class="d-flex gap-2 mb-3 align-items-center">
+                               <span class="text-warning">★</span>
+                                <div class="px-2 bg-danger bg-opacity-75 rounded-2">${product.rating}</div>
+                               </div>
                                 <div class="card-end d-flex justify-content-between">
                                     <h3>$${product.price}</h3>
                                     <button class="btn btn-danger mb-3 addToCartBtn">Add To Cart</button>
