@@ -16,12 +16,49 @@ const base_url = "https://dummyjson.com/";
     }finally{
         endLoading();
     }
-
+// products/categories
  }
-export function showCat(success){
- fetch('https://dummyjson.com/products/categories')
- .then(response => response.json())
- .then(data => success(data))
-.catch(error => console.error('Error fetching products:', error));
+
+ async function fetchData(endpoint) {
+  try {
+    const res = await fetch(`https://dummyjson.com/${endpoint}`);
+    if (res.ok) {
+      return await res.json();
+    } else {
+      throw new Error("Something went Wrong");
+    }
+  } catch (err) {
+    return err;
+  }
 }
-//console.log(data.products[0].images[0])
+
+export async function getManyRequests(uiHandellers,requestConfig){
+  const {startLoading,errorHandlle,stopLoading} = uiHandellers;
+
+  startLoading();
+  try{
+   const mappedRequests = requestConfig.map((item, index) =>
+      fetchData(item.endPoint)
+    );
+  const results = await Promise.all(mappedRequests);
+
+  console.log(results);
+  results.forEach((element,index) =>{
+    if(element instanceof Error){
+      throw new Error("somethimg wrong moo");
+    }
+     
+    requestConfig[index].success(element);
+  })
+
+  return results;
+
+  }catch(e){
+    errorHandlle(e)
+  }finally{
+    stopLoading();
+  }
+  
+}
+
+
