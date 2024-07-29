@@ -4,33 +4,39 @@ const productContainer = $('#product-container');
 
 const num_of_item = $('#num_of_item');
 let products = JSON.parse(localStorage.getItem('products'));
-export default function showProducts(data){
-    data = data.products;
-    productContainer.html(data.map(product => `
+let globalProductsData = [];
+
+
+export default function showProducts(data) {
+    globalProductsData = data.products;
+
+    productContainer.html(globalProductsData.map((product,index) => `
         <div class="col-12 col-sm-6 col-md-4">
-            <div class="mb-2 card shadow rounded-3 p-3 d-flex flex-column ">
-                    <div class="img-container">
+            <div class="mb-2 card shadow rounded-3 p-3 d-flex flex-column" id='${index}'>
+                <div class="img-container position-relative">
                     <img class="card-img-top" src="${product.images[0]}" alt="${product.title}">
+                    <div class="overlay d-flex justify-content-center align-items-center d-none gap-2" id='details'>
+                        <i class="fas fa-eye" id='details'></i>
+                        <span class="overlay-text" id='details'>View Details</span>
+                    </div>
                 </div>
-                  <div class= 'card-body'>
+                <div class='card-body'>
                     <h1 class="card-title mb-3">${product.title}</h1>
                     <p class="card-text">${product.description}</p>
-                     <div class="d-flex gap-2 mb-3 align-items-center">
+                    <div class="d-flex gap-2 mb-3 align-items-center">
                         <span class="text-warning">★</span>
-                       <div class="px-2 bg-danger bg-opacity-75 rounded-2">${product.rating}</div>
-                      </div>
+                        <div class="px-2 bg-danger bg-opacity-75 rounded-2">${product.rating}</div>
+                    </div>
                     <div class="card-end d-flex justify-content-between">
-                    <h3>$${product.price}</h3>
-                    <button class="btn btn-danger mb-3 addToCartBtn">Add To Cart</button>
+                        <h3>$${product.price}</h3>
+                        <button class="btn btn-danger mb-3 addToCartBtn">Add To Cart</button>
+                    </div>
                 </div>
-                </div>
-                </div>
-          
+            </div>
         </div>
-                `).join(''));
-        
-               
-                attachAddToCartListeners();
+    `).join(''));
+
+    attachAddToCartListeners();
 }
 
 $(document).on('click', '.categories-list', function() {
@@ -41,29 +47,34 @@ $(document).on('click', '.categories-list', function() {
       handleData(
           `products/category/${categoryId}`,
           data => {
-              console.log('Fetched data:', data);
+            globalProductsData= data.products;
+              console.log('Fetched data:', globalProductsData);
               const productContainer = $('#product-container');
-              productContainer.html(data.products.map(product => `
-                  <div class="col-12 col-sm-6 col-md-4">
-                      <div class="mb-2 card shadow rounded-3 p-3 d-flex flex-column">
-                          <div class="img-container">
-                              <img class="card-img-top" src="${product.images[0]}" alt="${product.title}">
-                          </div>
-                          <div class='card-body'>
-                              <h1 class="card-title mb-3">${product.title}</h1>
-                              <p class="card-text">${product.description}</p>
-                              <div class="d-flex gap-2 mb-3 align-items-center">
-                             <span class="text-warning">★</span>
-                              <div class="px-2 bg-danger bg-opacity-75 rounded-2">${product.rating}</div>
-                             </div>
-                              <div class="card-end d-flex justify-content-between">
-                                  <h3>$${product.price}</h3>
-                                  <button class="btn btn-danger mb-3 addToCartBtn">Add To Cart</button>
-                              </div>
-                          </div>
-                      </div>
-                  </div>
-              `).join(''));
+              productContainer.html(globalProductsData.map(product => `
+                      <div class="col-12 col-sm-6 col-md-4">
+            <div class="mb-2 card shadow rounded-3 p-3 d-flex flex-column" id='${index}'>
+                <div class="img-container position-relative">
+                    <img class="card-img-top" src="${product.images[0]}" alt="${product.title}">
+                    <div class="overlay d-flex justify-content-center align-items-center d-none gap-2" id='details'>
+                        <i class="fas fa-eye" id='details'></i>
+                        <span class="overlay-text" id='details'>View Details</span>
+                    </div>
+                </div>
+                <div class='card-body'>
+                    <h1 class="card-title mb-3">${product.title}</h1>
+                    <p class="card-text">${product.description}</p>
+                    <div class="d-flex gap-2 mb-3 align-items-center">
+                        <span class="text-warning">★</span>
+                        <div class="px-2 bg-danger bg-opacity-75 rounded-2">${product.rating}</div>
+                    </div>
+                    <div class="card-end d-flex justify-content-between">
+                        <h3>$${product.price}</h3>
+                        <button class="btn btn-danger mb-3 addToCartBtn">Add To Cart</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    `).join(''));
 
               // Re-attach event listeners for the new buttons
               attachAddToCartListeners();
@@ -94,7 +105,6 @@ function attachAddToCartListeners() {
           if (products == null) {
               products = [];
           }
-          // Check if the product already exists in the cart
           let existingProduct = products.find(product => product.title === title);
 
           if (existingProduct) {
@@ -142,7 +152,7 @@ function attachAddToCartListeners() {
       localStorage.setItem('products', JSON.stringify(products));
   }
 
-  // Event delegation for increase and decrease buttons
+
   $cartItems.on('click', '.increase-qty', function() {
       const title = $(this).data('title');
       let product = products.find(product => product.title === title);
@@ -188,4 +198,33 @@ $(document).ready(function() {
   $closeCart.on('click', function() {
       $cart.removeClass('show');
   });
+});
+
+
+// product details page link
+
+productContainer.on('click', '.card', function(e) {
+    const cartId = $(this);
+    if ($(e.target).attr('id') === 'details') {
+        // console.log("the array" ,globalProductsData,cartId.attr('id'));
+        const encodedArray = encodeURIComponent(JSON.stringify(globalProductsData));
+        const encodedId = encodeURIComponent(cartId.attr('id'));
+        window.location.href = `product_detalis.html?data=${encodedArray}&id=${encodedId}`;
+    }
+});
+
+
+
+productContainer.on('mouseenter', '.card', function() {
+    const overlay = $(this).find('.overlay');
+    overlay.removeClass('d-none');
+
+ 
+
+});
+
+productContainer.on('mouseleave', '.card', function() {
+    const overlay = $(this).find('.overlay');
+    overlay.addClass('d-none');
+
 });
