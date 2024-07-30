@@ -12,7 +12,7 @@ export default function showProducts(data) {
 
     productContainer.html(globalProductsData.map((product,index) => `
         <div class="col-12 col-sm-6 col-md-4">
-            <div class="mb-2 card shadow rounded-3 p-3 d-flex flex-column" id='${index}'>
+            <div class="mb-2 card shadow rounded-3 p-3 d-flex flex-column" id='${index}'">
                 <div class="img-container position-relative">
                     <img class="card-img-top" src="${product.images[0]}" alt="${product.title}">
                     <div class="overlay d-flex justify-content-center align-items-center d-none gap-2" id='details'>
@@ -40,17 +40,17 @@ export default function showProducts(data) {
 }
 
 $(document).on('click', '.categories-list', function() {
-  const categoryId = $(this).attr('id');
-  console.log(categoryId);
+  const category = $(this).attr('id');
+  console.log(category);
 
-  if (categoryId) {
+  if (category) {
       handleData(
-          `products/category/${categoryId}`,
+          `products/category/${category}`,
           data => {
             globalProductsData= data.products;
               console.log('Fetched data:', globalProductsData);
               const productContainer = $('#product-container');
-              productContainer.html(globalProductsData.map(product => `
+              productContainer.html(globalProductsData.map((product,index) => `
                       <div class="col-12 col-sm-6 col-md-4">
             <div class="mb-2 card shadow rounded-3 p-3 d-flex flex-column" id='${index}'>
                 <div class="img-container position-relative">
