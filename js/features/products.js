@@ -206,10 +206,16 @@ $(document).ready(function() {
 productContainer.on('click', '.card', function(e) {
     const cartId = $(this);
     if ($(e.target).attr('id') === 'details') {
-        // console.log("the array" ,globalProductsData,cartId.attr('id'));
-        const encodedArray = encodeURIComponent(JSON.stringify(globalProductsData));
-        const encodedId = encodeURIComponent(cartId.attr('id'));
-        window.location.href = `product_detalis.html?data=${encodedArray}&id=${encodedId}`;
+    
+        const id = cartId.attr('id');
+    // console.log("the array" ,globalProductsData,id);
+
+    localStorage.setItem('globalProductsData', JSON.stringify(globalProductsData));
+    localStorage.setItem('id', id);
+    
+    // Redirect to another page
+    window.location.href = 'product_detalis.html';
+        
     }
 });
 
