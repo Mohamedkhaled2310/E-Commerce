@@ -8,7 +8,31 @@ const id = localStorage.getItem('id');
 console.log('Retrieved Data:', { array, id });
 
 
+function generateStars(rating) {
+  const fullStar = '<i class="fas fa-star fa-sm text-warning"></i>';
+  // const halfStar = '<i class="fas fa-star-half-alt fa-sm text-warning"></i>';
+  const emptyStar = '<i class="far fa-star fa-sm text-warning"></i>';
 
+  let stars = '';
+  for (let i = 0; i < 5; i++) {
+    if (i < rating) {
+      stars += fullStar;
+    } else {
+      stars += emptyStar;
+    }
+  }
+
+  return stars;
+}
+
+function checkBrand(brand){
+    if(brand){
+      return brand;
+    }
+    else{
+      return "The brand is not known";
+    }
+}
 
 detailsContainer.html(`
             <div class="d-flex flex-column h-100 align-items-center " id="product-container">
@@ -52,7 +76,7 @@ detailsContainer.html(`
                                 <p class="text-uppercase mb-2" data-mdb-toggle="animation"
                                     data-mdb-animation-start="onLoad" data-mdb-animation="slide-in-down" data-mdb-animation-duration="1000"><strong>Brand</p>
                                 <p class="text-muted mb-4" data-mdb-toggle="animation"
-                                    data-mdb-animation-start="onLoad" data-mdb-animation="slide-in-up" data-mdb-animation-duration="1000">${array[id].brand}</p>
+                                    data-mdb-animation-start="onLoad" data-mdb-animation="slide-in-up" data-mdb-animation-duration="1000">${checkBrand(array[id].brand)}</p>
                               </li>
                   
                               <li>
@@ -108,13 +132,7 @@ reviews.html(`
                   <i class="fas fa-quote-left pe-2"></i>${array[id].reviews[0].comment}
                 </p>
                 <ul class="list-unstyled d-flex justify-content-center mb-0">
-                  <li>
-                    <i class="fas fa-star fa-sm text-warning"></i>
-                  </li>
-                    <li>
-                    <i class="fas fa-star fa-sm text-warning"></i>
-                  </li>
-
+              ${generateStars(array[id].reviews[0].rating)}
                 </ul>
               </div>
               <div class="col-md-4 mb-5 mb-md-0">
@@ -128,12 +146,7 @@ reviews.html(`
                   <i class="fas fa-quote-left pe-2"></i>${array[id].reviews[1].comment}
                 </p>
                 <ul class="list-unstyled d-flex justify-content-center mb-0">
-                  <li>
-                    <i class="fas fa-star fa-sm text-warning"></i>
-                  </li>
-                  <li>
-                    <i class="fas fa-star fa-sm text-warning"></i>
-                  </li>
+              ${generateStars(array[id].reviews[1].rating)}
                 </ul>
               </div>
               <div class="col-md-4 mb-0">
@@ -147,48 +160,43 @@ reviews.html(`
                   <i class="fas fa-quote-left pe-2"></i>${array[id].reviews[2].comment}
                 </p>
                 <ul class="list-unstyled d-flex justify-content-center mb-0">
-                  <li>
-                    <i class="fas fa-star fa-sm text-warning"></i>
-                  </li>
-                  <li>
-                    <i class="fas fa-star fa-sm text-warning"></i>
-                  </li>
-                  <li>
-                    <i class="fas fa-star fa-sm text-warning"></i>
-                  </li>
-                  <li>
-                    <i class="fas fa-star fa-sm text-warning"></i>
-                  </li>
-                  <li>
-                    <i class="far fa-star fa-sm text-warning"></i>
-                  </li>
+               ${generateStars(array[id].reviews[2].rating)}
                 </ul>
               </div>
             </div>
     `)
 
-// relatedContainer.html(array.filter(product => product.id !== id).map((product,index) => `
-// <div class="col-12 col-sm-6 col-md-4">
-//     <div class="mb-2 card shadow rounded-3 p-3 d-flex flex-column" id='${index}'>
-//         <div class="img-container position-relative">
-//             <img class="card-img-top" src="${product.images[0]}" alt="${product.title}">
-//             <div class="overlay d-flex justify-content-center align-items-center d-none gap-2" id='details'>
-//                 <i class="fas fa-eye" id='details'></i>
-//                 <span class="overlay-text" id='details'>View Details</span>
-//             </div>
-//         </div>
-//         <div class='card-body'>
-//             <h1 class="card-title mb-3">${product.title}</h1>
-//             <p class="card-text">${product.description}</p>
-//             <div class="d-flex gap-2 mb-3 align-items-center">
-//                 <span class="text-warning">★</span>
-//                 <div class="px-2 bg-danger bg-opacity-75 rounded-2">${product.rating}</div>
-//             </div>
-//             <div class="card-end d-flex justify-content-between">
-//                 <h3>$${product.price}</h3>
-//                 <button class="btn btn-danger mb-3 addToCartBtn">Add To Cart</button>
-//             </div>
-//         </div>
-//     </div>
-// </div>
-// `).join(''));
+
+
+
+relatedContainer.html(array
+  .filter(product => product.id !== id).map((product,index)=>
+ `
+   <div class="col-md-12 col-lg-4 mb-4 mb-lg-0">
+        <div class="card card-detalis">
+          <div class="img-container position-relative">
+          <img src="${product.images[0]}"
+            class="card-img-top" alt="${product.title}" />
+          </div>
+
+          <div class="card-body ">
+            <div class="d-flex justify-content-between">
+              <p class="small"><a href="#!" class="text-muted">${product.category}</a></p>
+              <p class="small text-danger"><s>$${(product.price+product.discountPercentage).toFixed(2)}</s></p>
+            </div>
+
+            <div class="d-flex justify-content-between mb-3">
+              <h5 class="mb-0">${product.title}</h5>
+              <h5 class="text-dark mb-0">$${product.price}</h5>
+            </div>
+
+            <div class="d-flex justify-content-between mb-2">
+              <p class="text-muted mb-0">Available: <span class="fw-bold">${product.stock}</span></p>
+              <div class="ms-auto text-warning">
+                <div class="px-2 bg-danger bg-opacity-75 rounded-2">${product.rating}</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+ `).join(""));

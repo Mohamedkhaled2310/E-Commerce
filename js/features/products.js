@@ -60,6 +60,7 @@ $(document).on('click', '.categories-list', function() {
                         <span class="overlay-text" id='details'>View Details</span>
                     </div>
                 </div>
+                
                 <div class='card-body'>
                     <h1 class="card-title mb-3">${product.title}</h1>
                     <p class="card-text">${product.description}</p>
