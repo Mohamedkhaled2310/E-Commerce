@@ -168,9 +168,9 @@ reviews.html(`
 
 
 
-
-relatedContainer.html(array
-  .filter(product => product.id !== id).map((product,index)=>
+const relatedProducts = array.filter((product,index) => index != id);
+// console.log(relatedProducts);
+relatedContainer.html(relatedProducts.map((product)=>
  `
    <div class="col-md-12 col-lg-4 mb-4 mb-lg-0">
         <div class="card card-detalis">
